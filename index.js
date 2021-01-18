@@ -15,8 +15,9 @@ app.use( express.json() )
 
 // Database
 dbConnection();
-// pass: d0wUF9lGB8jX7n6K
-// user: mean_user
+
+// Directorio publico
+app.use( express.static('public'));
 
 // Rutas
 app.use('/api/usuarios', require('./routes/usuario'));
