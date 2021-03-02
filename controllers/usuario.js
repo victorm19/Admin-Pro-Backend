@@ -54,11 +54,9 @@ const crearUsuario = async (req, res = response) => {
 
         res.json({
             ok: true,
-            usuarios: [{
-                id: 123,
-                usuario,
-                token
-            }]
+            usuario,
+            token
+    
         })
     } catch (error) {
         console.log(error);
@@ -92,11 +90,20 @@ const actualizarUsuario = async (req, res = response) => {
                 return res.status(400).json({
                     ok: false,
                     msg: 'No existe un usuario con ese id'
-                })
+                });
             }
+
         }
 
-        campos.email = email;
+        if (!usuarioDB.google) {
+            campos.email = email;
+        } else if(usuarioDB.email !== email) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'Usuario de google no puede cambiar su correo'
+            });
+        }
+
         const usuarioActualizado = await Usuario.findByIdAndUpdate(uid, campos, { new: true });
 
         res.json({
