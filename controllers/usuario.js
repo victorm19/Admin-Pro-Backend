@@ -17,11 +17,8 @@ const getUsuarios = async (req, res) => {
     ]);
     res.json({
         ok: true,
-        usuarios: [{
-            id: 123,
-            usuarios,
-            total
-        }]
+        total,
+        usuarios
     })
 }
 

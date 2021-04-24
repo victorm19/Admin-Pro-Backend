@@ -42,7 +42,7 @@ const actualizarMedico = async (req, res = response) => {
 
         const medico = await Medico.findById(id);
 
-        if(!medico) {
+        if (!medico) {
 
             res.status(404).json({
                 ok: true,
@@ -61,7 +61,7 @@ const actualizarMedico = async (req, res = response) => {
             ok: true,
             msg: 'actualizarHospital',
             medico: medicoActualizado
-        });   
+        });
     } catch (error) {
         console.log(error)
         res.status(500).json({
@@ -79,7 +79,7 @@ const borrarMedico = async (req, res = response) => {
 
         const medico = await Medico.findById(id);
 
-        if(!medico) {
+        if (!medico) {
 
             res.status(404).json({
                 ok: true,
@@ -92,8 +92,8 @@ const borrarMedico = async (req, res = response) => {
         res.json({
             ok: true,
             msg: 'Médico Borrado'
-        });   
-        
+        });
+
     } catch (error) {
         console.log(error)
         res.status(500).json({
@@ -103,10 +103,31 @@ const borrarMedico = async (req, res = response) => {
     }
 }
 
+const getMedicoById = async (req, res = response) => {
+
+    try {
+        const medico = await Medico.findById(req.params.id)
+            .populate('usuario', 'nombre img')
+            .populate('hospital', 'nombre img');
+
+        res.json({
+            ok: true,
+            medico
+        });
+
+    } catch (error) {
+        res.json({
+            ok: false,
+            msg: "Hable con el administrador"
+        });
+    }
+}
+
 
 module.exports = {
     getMedicos,
     crearMedico,
     actualizarMedico,
-    borrarMedico
+    borrarMedico,
+    getMedicoById
 }
